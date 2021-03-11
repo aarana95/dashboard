@@ -48,7 +48,6 @@ def home():
     img = Image.open('logo.png')
     st.image(img)
 
-@st.cache(suppress_st_warning=True)
 def kpi_escuela(df):
     streamlit_metrics.metric_row({
         'Nº Alumnos': df.shape[0],
@@ -56,7 +55,6 @@ def kpi_escuela(df):
         '% Alumnos Graduados': round(df['Estado de matrícula'].value_counts(normalize=True)['Graduado'] * 100, 0),
     })
 
-@st.cache(suppress_st_warning=True)
 def pie_tipos(df):
     col1, col2, col3 = st.beta_columns([1, 1, 1])
 
@@ -92,25 +90,37 @@ def pie_tipos(df):
         fig.update(layout_showlegend=False)
         st.plotly_chart(fig, use_container_width=True)
 
-@st.cache(suppress_st_warning=True)
 def kpi_busqueda_empleo(df):
+    try:
+        a_180 = round(df.loc[-df['Estado 180 días post-graduación'].isin(
+                ['']), 'Estado 180 días post-graduación'].value_counts(
+                normalize=True)['3 Continua su búsqueda de trabajo'] * 100, 0)
+    except:
+        a_180 = 0
+
+    try:
+        a_90 = round(df.loc[-df['Estado 90 días post-graduación'].isin(['']),
+                            'Estado 90 días post-graduación'].value_counts(normalize=True)['3 Continua su búsqueda de trabajo'] * 100, 0)
+
+    except:
+        a_90=0
+
+    try:
+        actual = round(df['Estado actual'].value_counts(normalize=True)['3 Continua su búsqueda de trabajo'] * 100, 0)
+    except:
+        actual = 0
     streamlit_metrics.metric_row({
         '% Alumnos que Continuan buscando trabajo':
-            round(df['Estado actual'].value_counts(normalize=True)['3 Continua su búsqueda de trabajo'] * 100, 0),
+            actual,
 
         '% Alumnos que Continuan buscando trabajo a 90 días de graduarse':
-            round(
-                df.loc[-df['Estado 90 días post-graduación'].isin(['']), 'Estado 90 días post-graduación'].value_counts(
-                    normalize=True)['3 Continua su búsqueda de trabajo'] * 100, 0),
+            a_90,
 
         '% Alumnos que Continuan buscando trabajo a 180 días de graduarse':
-            round(df.loc[-df['Estado 180 días post-graduación'].isin(
-                ['']), 'Estado 180 días post-graduación'].value_counts(
-                normalize=True)['3 Continua su búsqueda de trabajo'] * 100, 0),
+            a_180,
 
     })
 
-@st.cache(suppress_st_warning=True)
 def opciones_filtros(df):
 
     with st.sidebar.beta_expander('Filtros:'):
@@ -142,7 +152,6 @@ def opciones_filtros(df):
 
     return horario, programa, motivacion, promocion
 
-@st.cache(suppress_st_warning=True)
 def filtrar(df, filtros):
 
     if filtros[0] != '':
@@ -159,7 +168,6 @@ def filtrar(df, filtros):
 
     return df
 
-@st.cache(suppress_st_warning=True)
 def estado_alumnos(df, momento, normalizar, barras):
 
     barmode = 'relative'
