@@ -199,7 +199,7 @@ def estado_alumnos(df, momento, normalizar, barras):
 
     if normalizar:
 
-        progrmas['EMAIL'] /= progrmas.groupby("Programa")["EMAIL"].transform(sum)
+        progrmas['Nombres'] /= progrmas.groupby("Programa")["Nombres"].transform(sum)
 
 
     with st.beta_expander(momento, expanded=True):
