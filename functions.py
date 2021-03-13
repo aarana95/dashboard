@@ -229,9 +229,10 @@ def opciones_filtros(df):
         horario = tipo_filtro(df, 'Horario')
         programa = tipo_filtro(df, 'Programa')
         motivacion = tipo_filtro(df, 'Motivación')
-
+        st.write("funciona?")
         promos = df['Promoción'].unique()
         promos.sort()
+        st.write(promos)
         promocion = st.select_slider("Selecciona la promoción que te interesa: ",
                                           options=promos.tolist(),
                                           value=(min(promos), max(promos)))
