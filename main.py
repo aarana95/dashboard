@@ -9,6 +9,11 @@ ft.configuracion()
 st.write(os.listdir())
 good_connect = False
 key_file = st.sidebar.file_uploader("Clave:")
+actualizar = st.sidebar.button("Actualizar Outcomes")
+
+if actualizar:
+    if os.path.isfile("datos_pick"):
+        os.remove('datos_pick')
 
 if key_file is not None:
 
