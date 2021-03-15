@@ -6,7 +6,6 @@ imagen = 'logo.png'
 sheet_name = 'Outcomes_a'
 
 ft.configuracion()
-st.write(os.listdir())
 good_connect = False
 key_file = st.sidebar.file_uploader("Clave:")
 actualizar = st.sidebar.button("Actualizar Outcomes")
